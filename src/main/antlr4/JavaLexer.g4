@@ -1,0 +1,91 @@
+lexer grammar JavaLexer;
+
+@header {
+package com.example.compiler.parser.java;
+}
+
+// Keywords used by the Java subset supported by this educational analyzer.
+PACKAGE : 'package';
+IMPORT : 'import';
+STATIC : 'static';
+PUBLIC : 'public';
+PROTECTED : 'protected';
+PRIVATE : 'private';
+ABSTRACT : 'abstract';
+FINAL : 'final';
+CLASS : 'class';
+INTERFACE : 'interface';
+EXTENDS : 'extends';
+IMPLEMENTS : 'implements';
+VOID : 'void';
+RETURN : 'return';
+NEW : 'new';
+THIS : 'this';
+SUPER : 'super';
+IF : 'if';
+ELSE : 'else';
+FOR : 'for';
+WHILE : 'while';
+THROWS : 'throws';
+THROW : 'throw';
+TRY : 'try';
+CATCH : 'catch';
+FINALLY : 'finally';
+INSTANCEOF : 'instanceof';
+BOOLEAN : 'boolean';
+BYTE : 'byte';
+SHORT : 'short';
+INT : 'int';
+LONG : 'long';
+CHAR : 'char';
+FLOAT : 'float';
+DOUBLE : 'double';
+TRUE : 'true';
+FALSE : 'false';
+NULL : 'null';
+
+AT : '@';
+ELLIPSIS : '...';
+ARROW : '->';
+INC : '++';
+DEC : '--';
+AND_AND : '&&';
+OR_OR : '||';
+EQUAL : '==';
+NOT_EQUAL : '!=';
+LESS_EQUAL : '<=';
+GREATER_EQUAL : '>=';
+ASSIGN : '=';
+LESS : '<';
+GREATER : '>';
+PLUS : '+';
+MINUS : '-';
+STAR : '*';
+DIV : '/';
+MOD : '%';
+BANG : '!';
+DOT : '.';
+COMMA : ',';
+SEMI : ';';
+COLON : ':';
+QUESTION : '?';
+BIT_AND : '&';
+BIT_OR : '|';
+CARET : '^';
+LPAREN : '(';
+RPAREN : ')';
+LBRACE : '{';
+RBRACE : '}';
+LBRACK : '[';
+RBRACK : ']';
+
+TEXT_BLOCK : '"""' .*? '"""';
+STRING_LITERAL : '"' ('\\' . | ~["\\\r\n])* '"';
+CHAR_LITERAL : '\'' ('\\' . | ~['\\\r\n]) '\'';
+NUMBER_LITERAL : [0-9]+ ('.' [0-9]+)? [fFdDlL]?;
+IDENTIFIER : [a-zA-Z_$] [a-zA-Z0-9_$]*;
+
+LINE_COMMENT : '//' ~[\r\n]* -> skip;
+BLOCK_COMMENT : '/*' .*? '*/' -> skip;
+WS : [ \t\r\n\f]+ -> channel(HIDDEN);
+OTHER : .;

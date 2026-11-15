@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compiler Web Analyzer</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<main class="container">
+    <header class="page-header">
+        <p class="eyebrow">Compiler Design Project</p>
+        <h1>Web Language Analyzer</h1>
+        <p>Educational Lexer and Parser for Java, HTML / Thymeleaf and CSS</p>
+    </header>
+
+    <section class="panel">
+        <form method="post" th:action="@{/analyze}">
+            <label for="language">Language to analyze</label>
+            <select id="language" name="language">
+                <option value="html" th:selected="${language == 'html'}">HTML + Thymeleaf</option>
+                <option value="css" th:selected="${language == 'css'}">CSS</option>
+                <option value="java" th:selected="${language == 'java'}">Java (Spring Boot subset)</option>
+            </select>
+
+            <label for="source">Source code</label>
+            <textarea id="source" name="source" rows="14" spellcheck="false"
+                      th:text="${source}"></textarea>
+            <button type="submit">Analyze source</button>
+        </form>
+    </section>
+
+    <section class="results" th:if="${result != null}">
+        <div class="panel">
+            <h2>Syntax analysis</h2>
+            <div class="status" th:if="${!result.hasErrors()}">No syntax / validation errors were reported by this analyzer.</div>
+            <div class="errors" th:if="${result.hasErrors()}">
+                <h3>Errors</h3>
+                <ul>
+                    <li th:each="error : ${result.errors}" th:text="${error}"></li>
+                </ul>
+            </div>
+            <h3>Parse Tree</h3>
+            <pre class="output" th:text="${result.parseTree}"></pre>
+        </div>
+
+        <div class="panel">
+            <h2>Tokens</h2>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                    <tr><th>Token</th><th>Text</th><th>Line</th><th>Column</th></tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="token : ${result.tokens}">
+                        <td th:text="${token.type}"></td>
+                        <td class="token-text" th:text="${token.text}"></td>
+                        <td th:text="${token.line}"></td>
+                        <td th:text="${token.column}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        Educational project. The grammars intentionally cover defined subsets of Java, HTML / Thymeleaf and CSS, not their complete language specifications.
+    </footer>
+</main>
+</body>
+</html>
